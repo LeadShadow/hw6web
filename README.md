@@ -8,7 +8,6 @@
 
 #### *Format start in console:*
     python main.py 'foldername'
----
 
 **Junk folder handler that sorts files in a specified folder by extension using async/await**
 
