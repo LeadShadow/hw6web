@@ -1,4 +1,4 @@
-#№ *Hw6Web*
+## *Hw6Web*
 # *Program for sorting files using asyncio*
 
 [![Language](https://img.shields.io/badge/language-python-blue?&style=plastic)](https://www.python.org)
