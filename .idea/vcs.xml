@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/test/HW10" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/test/HW11" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/test/HW12" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/test/HW8" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/test/HW9" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/test/Py6Core" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/test/hw10-autocheck" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/test/hw11-autocheck-" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/test/hw12-autocheck" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/test/hw3web" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/test/hw4web" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/test/hw5web" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/test/hw8-autocheck" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/test/hw9-autocheck" vcs="Git" />
+  </component>
+</project>

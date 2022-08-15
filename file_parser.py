@@ -1,9 +1,7 @@
-import sys
-import asyncio
-from typing import AsyncIterable, Coroutine
-
-from aiopath.path import AsyncPath
 from pathlib import Path
+
+from main import main
+import asyncio
 
 
 JPEG_IMAGES = []
@@ -27,17 +25,16 @@ PDF_DOCUMENTS = []
 XLSX_DOCUMENTS = []
 PPTX_DOCUMENTS = []
 
-
 REGISTER_EXTENSIONS = {
     'JPEG': JPEG_IMAGES,
     'PNG': PNG_IMAGES,
     'JPG': JPG_IMAGES,
     'SVG': SVG_IMAGES,
-    'MP3': MP3_AUDIO,
     'ZIP': ARCHIVES,
     "GZ": ARCHIVES,
     "TAR": ARCHIVES,
     "OGG": OGG_AUDIO,
+    'MP3': MP3_AUDIO,
     "WAV": WAV_AUDIO,
     "AMR": AMR_AUDIO,
     "AVI": AVI_VIDEO,
@@ -51,6 +48,7 @@ REGISTER_EXTENSIONS = {
     "XLSX": XLSX_DOCUMENTS,
     "PPTX": PPTX_DOCUMENTS
 }
+
 
 FOLDERS = []
 EXTENSIONS = set()
@@ -89,4 +87,3 @@ def scan(folder: Path) -> None:
                 # Если мы не регистрировали расширение в REGISTER_EXTENSIONS, то добавить в другое
                 UNKNOWN.add(ext)
                 OTHER.append(fullname)
-

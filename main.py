@@ -1,5 +1,6 @@
 from pathlib import Path
 import shutil
+from time import time
 
 import file_parser as parser
 from normalize import normalize
@@ -38,71 +39,22 @@ def handle_folder(folder: Path):
         print(f'Не удалось удалить папку {folder}')
 
 
-async def main(folder: Path):
+async def sort_files(folder: Path):
     list_tasks = []
-    parser.scan(folder)
-    for file in parser.JPEG_IMAGES:
-        t1 = asyncio.create_task(handle_files(file, folder / 'images' / 'JPEG'))
-        list_tasks.append(t1)
-    for file in parser.JPG_IMAGES:
-        t2 = asyncio.create_task(handle_files(file, folder / 'images' / 'JPG'))
-        list_tasks.append(t2)
-    for file in parser.PNG_IMAGES:
-        t3 = asyncio.create_task(handle_files(file, folder / 'images' / 'PNG'))
-        list_tasks.append(t3)
-    for file in parser.SVG_IMAGES:
-        t4 = asyncio.create_task(handle_files(file, folder / 'images' / 'SVG'))
-        list_tasks.append(t4)
-    for file in parser.MP3_AUDIO:
-        t5 = asyncio.create_task(handle_files(file, folder / 'audio' / 'MP3'))
-        list_tasks.append(t5)
-    for file in parser.OGG_AUDIO:
-        t6 = asyncio.create_task(handle_files(file, folder / 'audio' / 'OGG'))
-        list_tasks.append(t6)
-    for file in parser.WAV_AUDIO:
-        t7 = asyncio.create_task(handle_files(file, folder / 'audio' / 'WAV'))
-        list_tasks.append(t7)
-    for file in parser.AMR_AUDIO:
-        t8 = asyncio.create_task(handle_files(file, folder / 'audio' / 'AMR'))
-        list_tasks.append(t8)
-    for file in parser.AVI_VIDEO:
-        t9 = asyncio.create_task(handle_files(file, folder / 'video' / 'AVI'))
-        list_tasks.append(t9)
-    for file in parser.MP4_VIDEO:
-        t10 = asyncio.create_task(handle_files(file, folder / 'video' / 'MP4'))
-        list_tasks.append(t10)
-    for file in parser.MOV_VIDEO:
-        t11 = asyncio.create_task(handle_files(file, folder / 'video' / 'MOV'))
-        list_tasks.append(t11)
-    for file in parser.MKV_VIDEO:
-        t12 = asyncio.create_task(handle_files(file, folder / 'video' / 'MKV'))
-        list_tasks.append(t12)
-    for file in parser.DOC_DOCUMENTS:
-        t13 = asyncio.create_task(handle_files(file, folder / 'documents' / 'DOC'))
-        list_tasks.append(t13)
-    for file in parser.DOCX_DOCUMENTS:
-        t14 = asyncio.create_task(handle_files(file, folder / 'documents' / 'DOCX'))
-        list_tasks.append(t14)
-    for file in parser.TXT_DOCUMENTS:
-        t15 = asyncio.create_task(handle_files(file, folder / 'documents' / 'TXT'))
-        list_tasks.append(t15)
-    for file in parser.PDF_DOCUMENTS:
-        t16 = asyncio.create_task(handle_files(file, folder / 'documents' / 'PDF'))
-        list_tasks.append(t16)
-    for file in parser.XLSX_DOCUMENTS:
-        t17 = asyncio.create_task(handle_files(file, folder / 'documents' / 'XLSX'))
-        list_tasks.append(t17)
-    for file in parser.PPTX_DOCUMENTS:
-        t18 = asyncio.create_task(handle_files(file, folder / 'documents' / 'PPTX'))
-        list_tasks.append(t18)
-
-    for file in parser.OTHER:
-        t19 = asyncio.create_task(handle_files(file, folder / 'other' / 'OTHER'))
-        list_tasks.append(t19)
-    for file in parser.ARCHIVES:
-        t20 = asyncio.create_task(handle_archive(file, folder / 'archives' / 'ARCHIVES'))
-        list_tasks.append(t20)
-
+    for k, v in parser.REGISTER_EXTENSIONS.items():
+        for file in v:
+            if k == 'JPEG' or k == 'JPG' or k == 'SVG' or k == 'PNG':
+                list_tasks.append(asyncio.create_task(handle_files(file, folder / 'images' / k)))
+            elif k == 'MP3' or k == 'OGG' or k == 'WAV' or k == 'AMR':
+                list_tasks.append(asyncio.create_task(handle_files(file, folder / 'audio' / k)))
+            elif k == 'AVI' or k == 'MP4' or k == 'MKV' or k == 'MOV':
+                list_tasks.append(asyncio.create_task(handle_files(file, folder / 'video' / k)))
+            elif k == 'DOC' or k == 'DOCX' or k == 'TXT' or k == 'PDF' or k == 'PPTX' or k == 'XLSX':
+                list_tasks.append(asyncio.create_task(handle_files(file, folder / 'documents' / k)))
+            elif k == 'ZIP' or k == 'GZ' or k == 'TAR':
+                list_tasks.append(asyncio.create_task(handle_archive(file, folder / 'archives' / k)))
+            else:
+                list_tasks.append(asyncio.create_task(handle_files(file, folder / 'other' / 'OTHERS')))
     await asyncio.gather(*list_tasks)
 
     # Выполняем реверс списка для того, чтобы все папки удалить.
@@ -110,9 +62,17 @@ async def main(folder: Path):
         handle_folder(folder)
     return
 
+
+async def main(folder: Path):
+    parser.scan(folder)
+    await sort_files(folder)
+
+
 if __name__ == '__main__':
     user_input = input(">>>")
+    start = time()
     if user_input:
         folder_for_scan = Path(user_input).resolve()
         print(f'Start in folder {folder_for_scan}')
         asyncio.run(main(folder_for_scan))
+        print(time() - start)
